@@ -1,19 +1,24 @@
 import { Button } from "@/shared/Button";
 import { Chip } from "@/shared/Chip/Chip";
 import { Colors, Radius } from "@/shared/tokens";
-import { Image, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
+import { SvgUri } from "react-native-svg";
+import { Product } from "../../model/types";
 
-export function ProductCard () {
+export function ProductCard ({product}: { product: Product }) {
     return <View>
-        <Image
-            source={require('@/assets/images/images.webp')}
+        <SvgUri
+            uri={product.image}
             style = { styles.image }
             height = {200}
-            resizeMode="contain"
+            width = "100%"
          />
          <View style={styles.header}>
             <View style={styles.chips}>
-                <Chip text="Помидоры" />
+                <Chip text={product.name} />
+            </View>
+            <View style={styles.chips}>
+                <Chip text={String(product.price)} />
             </View>
          </View>
 
