@@ -1,33 +1,55 @@
+
+import { Colors } from '@/shared/tokens';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { Tabs } from 'expo-router';
 import React from 'react';
 
-import { HapticTab } from '@/components/haptic-tab';
-import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
-
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
         headerShown: false,
-        tabBarButton: HapticTab,
-      }}>
+        tabBarActiveTintColor: Colors.orange,
+        tabBarInactiveTintColor: Colors.brown
+      }}
+    >
+      <Tabs.Screen
+        name="recipes/index"
+        options={{
+          title: 'Рецепты',
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="pot-mix-outline" size={size} color={color} />
+          ),
+        }}
+      />
+
+      <Tabs.Screen
+        name="products/index"
+        options={{
+          title: 'Каталог',
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="grid-large" size={size} color={color} />
+          ),
+        }}
+      />
+
+      <Tabs.Screen
+        name="cart/index"
+        options={{
+          title: 'Корзина',
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="cart" size={size} color={color} />
+          ),
+        }}
+      />
+
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="explore"
-        options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          title: 'Выход',
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="exit-to-app" size={size} color={color} />
+          ),
         }}
       />
     </Tabs>

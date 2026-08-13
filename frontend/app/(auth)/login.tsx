@@ -16,7 +16,7 @@ export default function Login() {
     }
 
     const handleGuestLogin = () => {
-        router.push('/profile');
+        router.push('/products');
     };
 
     return (
