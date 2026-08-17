@@ -10,9 +10,15 @@ export function CatalogScreen() {
     return (
         <SafeAreaView style={styles.safeArea} edges={['top', 'left', 'right']}>
             <View style={styles.wrapper}>
-                <CategoryList/>
-                <ProductSearch />
-                <ProductList title="Список продуктов" />
+                <ProductList
+                    title="Список продуктов"
+                    ListHeaderComponent={
+                        <>
+                            <ProductSearch />
+                            <CategoryList />
+                        </>
+                    }
+                />
             </View>
         </SafeAreaView>
     );
@@ -27,6 +33,6 @@ const styles = StyleSheet.create({
         flex: 1,
         gap: Gaps.g25,
         paddingHorizontal: 20,
-        paddingTop: 10
+        // paddingTop: 10
     },
 });

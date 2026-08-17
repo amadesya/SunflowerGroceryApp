@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
         //размеры и отступы
         height: 48,
         paddingHorizontal: 16,
-        marginHorizontal: 16,
+        // marginHorizontal: 16,
 
         //фон
         backgroundColor: Colors.white,

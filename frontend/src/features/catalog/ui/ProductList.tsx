@@ -74,7 +74,6 @@ export function ProductList({ title, ListHeaderComponent }: ProductListProps) {
                 contentContainerStyle={[
                     styles.listContent,
                     {
-                        paddingTop: top > 0 ? top + 12 : 20,
                         paddingBottom: 100,
                     },
                 ]}
