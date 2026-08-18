@@ -1,8 +1,8 @@
-import { Colors, Fonts, FontSizes, Radius } from "@/shared/theme";
+import { Colors, Fonts, FontSizes } from "@/shared/theme";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
-export function Chip({ text }: { text: string }) {
+export function Header({ text }: { text: string }) {
     return <View style={styles.container}>
         <Text style={styles.text}>{text}</Text>
     </View>
@@ -11,12 +11,11 @@ export function Chip({ text }: { text: string }) {
 const styles = StyleSheet.create({
     container:{
         paddingVertical: 5,
-        paddingHorizontal: 10,
-        borderRadius: Radius.r16
+        paddingHorizontal: 10
     },
     text:{
         fontFamily: Fonts.bold,
-        fontSize: FontSizes.f18,
+        fontSize: FontSizes.f24,
         color: Colors.brown
     },
 });

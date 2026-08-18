@@ -19,7 +19,7 @@ export function ProductSearch() {
             <TextInput
                 value={searchText}
                 onChangeText={setSearchText}
-                placeholder="Поиск товаров..."
+                placeholder="Поиск..."
                 placeholderTextColor={Colors.brown}
                 style={styles.searchInput}
             />

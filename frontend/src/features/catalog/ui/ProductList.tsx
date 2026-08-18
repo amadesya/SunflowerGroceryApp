@@ -100,10 +100,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     columnWrapper: {
-        gap: 12,
+        gap: 4,
     },
     listContent: {
-        gap: 12,
+        gap: 4,
         paddingHorizontal: 12,
     },
     emptyCard: {
