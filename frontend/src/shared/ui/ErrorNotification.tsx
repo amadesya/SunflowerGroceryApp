@@ -1,6 +1,6 @@
 import { Colors, FontSizes } from "@/shared/theme";
-import React, { useEffect, useState } from "react";
-import { Animated, Dimensions, StyleSheet, Text } from "react-native";
+import React, { useEffect, useRef, useState } from "react";
+import { Animated, StyleSheet, Text, useWindowDimensions } from "react-native";
 
 export interface ErrorNotificationProps {
   error?: string;
@@ -8,13 +8,15 @@ export interface ErrorNotificationProps {
 
 export function ErrorNotification({ error }: ErrorNotificationProps ){
         const [isShown, setIsShown] = useState<boolean>(false);
-        const animatedValue = new Animated.Value(-100);
+        const animatedValue = useRef(new Animated.Value(-100)).current;
+        const { width } = useWindowDimensions();
 
         const onEnter = () => {
+            animatedValue.setValue(-100);
             Animated.timing(animatedValue, {
                 toValue: 0,
                 duration: 300,
-                useNativeDriver: true
+                useNativeDriver: false
             }).start()
         }
 
@@ -37,9 +39,10 @@ export function ErrorNotification({ error }: ErrorNotificationProps ){
         }
 
         return (
-        <Animated.View style={{...styles.error, transform: [
-            {translateY: animatedValue}
-            ]}}
+        <Animated.View style={[styles.error, { width }, {
+            transform: [
+                {translateY: animatedValue}
+            ]}]}
             onLayout={onEnter}>
             <Text style={styles.errorText}>{error}</Text>
         </Animated.View>
@@ -53,9 +56,9 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 0,
         left: 0,
-        width: Dimensions.get('window').width,
         backgroundColor: Colors.red,
         padding: 15,
+        zIndex: 1000,
     },
     errorText: {
         color: Colors.white,

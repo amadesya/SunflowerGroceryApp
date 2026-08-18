@@ -14,7 +14,7 @@ export function LoginScreen() {
     }
 
     const handleGuestLogin = () => {
-        router.push('/products');
+        router.replace('/(tabs)/products');
     };
 
     return (
