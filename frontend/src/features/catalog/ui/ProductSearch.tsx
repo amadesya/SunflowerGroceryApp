@@ -1,7 +1,7 @@
 import { Colors, FontSizes, Radius } from '@/shared/theme';
 import { Search, X } from 'lucide-react-native';
 import React, { useState } from 'react';
-import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Platform, TextInput, TouchableOpacity, View } from 'react-native';
 
 export function ProductSearch() {
     const [searchText, setSearchText] = useState('');
@@ -35,32 +35,16 @@ export function ProductSearch() {
 
 const styles = StyleSheet.create({
     searchContainer: {
-        //расположение
         flexDirection: 'row',
         alignItems: 'center',
-
-        //размеры и отступы
         height: 48,
         paddingHorizontal: 16,
-        // marginHorizontal: 16,
-
-        //фон
         backgroundColor: Colors.white,
         borderRadius: Radius.r25,
-
-        //тень
-        //ios
-        shadowColor: Colors.black,
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.6,
-        shadowRadius:6,
-
-        //android
-        elevation: 2
-
+        ...(Platform.OS === 'web'
+            ? { boxShadow: '0 2px 6px rgba(0,0,0,0.6)' }
+            : { shadowColor: Colors.black, shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.6, shadowRadius: 6, elevation: 2 }
+        ),
     },
     searchInput: {
         flex: 1,

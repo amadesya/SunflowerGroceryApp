@@ -2,7 +2,7 @@ import { Colors, Radius } from '@/shared/theme';
 import { useRouter } from 'expo-router';
 import * as Icons from 'lucide-react-native';
 import React, { useState } from 'react';
-import { Pressable, StyleSheet, useWindowDimensions, View } from 'react-native';
+import { Platform, Pressable, StyleSheet, useWindowDimensions, View } from 'react-native';
 import Animated, { FadeInRight, FadeOutRight } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -50,9 +50,9 @@ export function CustomTabBar({ data, onChange }: CustomTabBarProps) {
                 {
                     bottom: bottom > 0 ? bottom : 16,
                     paddingHorizontal: width * 0.06,
+                    pointerEvents: 'box-none',
                 },
             ]}
-            pointerEvents="box-none"
         >
             <View style={styles.container}>
                 {data.map((item, index) => {
@@ -102,11 +102,10 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.white,
         borderRadius: Radius.r16,
         paddingVertical: 12,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.1,
-        shadowRadius: 8,
-        elevation: 5,
+        ...(Platform.OS === 'web'
+            ? { boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }
+            : { shadowColor: '#000', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.1, shadowRadius: 8, elevation: 5 }
+        ),
     },
     itemView: {
         overflow: 'hidden',

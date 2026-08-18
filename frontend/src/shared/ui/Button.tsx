@@ -36,8 +36,7 @@ export function Button({ title, ...props }: PressableProps & { title: string }) 
             style={styles.pressable}
         >
             <Animated.View
-                pointerEvents="none"
-                style={[styles.buttonContent, { backgroundColor: color }]}
+                style={[styles.buttonContent, { backgroundColor: color, pointerEvents: 'none' }]}
             >
                 <Text style={styles.text}>{title}</Text>
             </Animated.View>
