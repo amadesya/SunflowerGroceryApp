@@ -1,6 +1,17 @@
 {
   "plugins": ["prettier", "react", "react-native"],
   "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
+  "settings": {
+    "import/resolver": {
+      "typescript": {
+        "alwaysTryTypes": true,
+        "project": "./tsconfig.json"
+      },
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
+  },
   "rules": {
     "react-native/no-unused-styles": 2,
     "react-native/split-platform-components": 2,
