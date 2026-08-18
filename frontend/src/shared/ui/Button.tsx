@@ -1,8 +1,33 @@
 import { Colors, Radius } from "@/shared/theme";
 import React, { useRef } from "react";
-import { Animated, GestureResponderEvent, Pressable, PressableProps, StyleSheet, Text } from "react-native";
+import {
+    Animated,
+    GestureResponderEvent,
+    Pressable,
+    PressableProps,
+    StyleProp,
+    StyleSheet,
+    Text,
+    ViewStyle,
+} from "react-native";
 
-export function Button({ title, ...props }: PressableProps & { title: string }) {
+interface ButtonProps extends PressableProps {
+    title: string;
+    size?: "sm" | "md" | "lg";
+    style?: StyleProp<ViewStyle>;
+    disabled?: boolean;
+}
+
+export function Button({
+    title,
+    size = "lg",
+    onPress,
+    onPressIn,
+    onPressOut,
+    style,
+    disabled,
+    ...props
+}: ButtonProps) {
     const animatedValue = useRef(new Animated.Value(100)).current;
 
     const color = animatedValue.interpolate({
@@ -16,7 +41,7 @@ export function Button({ title, ...props }: PressableProps & { title: string }) 
             duration: 100,
             useNativeDriver: false,
         }).start();
-        props.onPressIn?.(e);
+        onPressIn?.(e);
     };
 
     const fadeOut = (e: GestureResponderEvent) => {
@@ -25,18 +50,24 @@ export function Button({ title, ...props }: PressableProps & { title: string }) 
             duration: 100,
             useNativeDriver: false,
         }).start();
-        props.onPressOut?.(e);
+        onPressOut?.(e);
     };
 
     return (
         <Pressable
             {...props}
+            onPress={onPress}
             onPressIn={fadeIn}
             onPressOut={fadeOut}
-            style={styles.pressable}
+            disabled={disabled}
+            style={[styles.pressable, disabled && styles.disabled, style]}
         >
             <Animated.View
-                style={[styles.buttonContent, { backgroundColor: color, pointerEvents: 'none' }]}
+                style={[
+                    styles.buttonContent,
+                    styles[size],
+                    { backgroundColor: color },
+                ]}
             >
                 <Text style={styles.text}>{title}</Text>
             </Animated.View>
@@ -46,14 +77,15 @@ export function Button({ title, ...props }: PressableProps & { title: string }) 
 
 const styles = StyleSheet.create({
     pressable: {
-        alignSelf: 'stretch',
         borderRadius: Radius.r25,
         overflow: "hidden",
+    },
+    disabled: {
+        opacity: 0.5,
     },
     buttonContent: {
         justifyContent: "center",
         alignItems: "center",
-        height: 58,
         borderRadius: Radius.r25,
     },
     text: {
@@ -61,5 +93,18 @@ const styles = StyleSheet.create({
         fontSize: 16,
         textAlign: "center",
         fontFamily: "Inter-Bold",
+    },
+    sm: {
+        height: 36,
+        minWidth: 36,
+        paddingHorizontal: 8,
+    },
+    md: {
+        height: 46,
+        paddingHorizontal: 16,
+    },
+    lg: {
+        height: 58,
+        alignSelf: "stretch",
     },
 });

@@ -4,28 +4,35 @@ import { Header } from "@/shared/ui/Header";
 import React from "react";
 import { Image, StyleSheet, View } from "react-native";
 import { Recipe } from "../../../entities/recipe/model/types";
+import { CalorieLabel } from "./CalorieLabel";
 
 export function RecipeCard({ recipe }: { recipe: Recipe }) {
     return (
         <View style={styles.body}>
-            <View style={styles.header}>
+            <View style={styles.imageContainer}>
                 <Image
                     source={{ uri: recipe.image}}
                     style={styles.image}
                     resizeMode="cover"
                 />
             </View>
-            <View style={styles.header}>
-                <View style={styles.chips}>
+            <View style={styles.infoContainer}>
+                <View>
                     <Header text={recipe.name}/>
                 </View>
-                <View style={styles.chips}>
-                    <Chip text={String(recipe.price) + "₽"} />
-                </View>
-                <View style={styles.chips}>
-                    <Chip text={String(recipe.calories)} />
+                <View>
+                    <CalorieLabel text={String(recipe.calories) + " ккал"} />
                 </View>  
-                <Button title="Добавить в корзину" />
+                <View>
+                    <CalorieLabel text={`Б: ${recipe.proteins} г • Ж: ${recipe.fats} г • У: ${recipe.carbs} г`} />
+                </View>  
+                <View style={styles.footer}>
+                    <Chip text={String(recipe.price) + " ₽/рецепт"} />
+                    <View style={styles.buttonView}>
+                        <Button title="+" size="md"/>
+                        <Button title="♡" size="md" />
+                    </View>
+                </View>
             </View>
         </View>
     );
@@ -38,18 +45,29 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.white,
         overflow: 'hidden',
         borderWidth: 2,
-        borderColor: Colors.yellow
+        borderColor: Colors.yellow,
+        padding: 12,
+        gap: 12
     },
     image: {
-        width: 120,
-        height: 120,
+        width: 100,
+        height: 100,
         borderRadius: Radius.r25
     },
     title: {},
-    chips: {},
-    header: {
-        flex: 1,
-        padding: 8,
-        gap: 1,
+    imageContainer:{
+    },
+    infoContainer: {
+    flex: 1,
+    gap: 4
+    },
+    footer:{
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center'
+    },
+    buttonView: {
+        flexDirection: 'row',
+        gap: 4
     },
 });
