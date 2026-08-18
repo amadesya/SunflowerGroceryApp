@@ -1,10 +1,8 @@
 import { Product, ProductCard } from '@/entities/product';
+import { products } from "@/entities/product/model/types";
 import { Colors, FontSizes } from '@/shared/theme';
-import type { AxiosResponse } from 'axios';
-import React, { useEffect, useMemo, useState } from 'react';
-import { ActivityIndicator, FlatList, StyleSheet, Text, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { getProducts } from '../api/productsApi';
+import React from 'react';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
 
 type ListItem = Product | { id: string; empty: true };
 
@@ -14,53 +12,53 @@ interface ProductListProps {
 }
 
 export function ProductList({ title, ListHeaderComponent }: ProductListProps) {
-    const { top } = useSafeAreaInsets();
-    const [products, setProducts] = useState<Product[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+    // const { top } = useSafeAreaInsets();
+    // const [products, setProducts] = useState<Product[]>([]);
+    // const [isLoading, setIsLoading] = useState(true);
+    // const [error, setError] = useState<string | null>(null);
 
-    useEffect(() => {
-        getProducts()
-            .then((response: AxiosResponse<Product[]>) => {
-                setProducts(response.data);
-            })
-            .catch((err: unknown) => {
-                console.error('Error fetching products:', err);
-                setError('Failed to load products.');
-            })
-            .finally(() => {
-                setIsLoading(false);
-            });
-    }, []);
+    // useEffect(() => {
+    //     getProducts()
+    //         .then((response: AxiosResponse<Product[]>) => {
+    //             setProducts(response.data);
+    //         })
+    //         .catch((err: unknown) => {
+    //             console.error('Error fetching products:', err);
+    //             setError('Failed to load products.');
+    //         })
+    //         .finally(() => {
+    //             setIsLoading(false);
+    //         });
+    // }, []);
 
-    const formattedData = useMemo<ListItem[]>(() => {
-        if (!products.length) return [];
-        if (products.length % 2 !== 0) {
-            return [...products, { id: 'EMPTY_PLACEHOLDER', empty: true }];
-        }
-        return products;
-    }, [products]);
+    // const formattedData = useMemo<ListItem[]>(() => {
+    //     if (!products.length) return [];
+    //     if (products.length % 2 !== 0) {
+    //         return [...products, { id: 'EMPTY_PLACEHOLDER', empty: true }];
+    //     }
+    //     return products;
+    // }, [products]);
 
-    if (isLoading) {
-        return (
-            <View style={[styles.wrapper, styles.center]}>
-                <ActivityIndicator size="large" />
-            </View>
-        );
-    }
+    // if (isLoading) {
+    //     return (
+    //         <View style={[styles.wrapper, styles.center]}>
+    //             <ActivityIndicator size="large" />
+    //         </View>
+    //     );
+    // }
 
-    if (error) {
-        return (
-            <View style={[styles.wrapper, styles.center]}>
-                <Text style={styles.errorText}>{error}</Text>
-            </View>
-        );
-    }
+    // if (error) {
+    //     return (
+    //         <View style={[styles.wrapper, styles.center]}>
+    //             <Text style={styles.errorText}>{error}</Text>
+    //         </View>
+    //     );
+    // }
 
     return (
         <View style={styles.wrapper}>
             <FlatList
-                data={formattedData}
+                data={products}
                 ListHeaderComponent={ListHeaderComponent ?? <Text style={styles.header}>{title ?? 'Список продуктов'}</Text>}
                 renderItem={({ item }) => {
                     if ('empty' in item) {

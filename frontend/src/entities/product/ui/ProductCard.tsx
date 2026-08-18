@@ -11,7 +11,7 @@ export function ProductCard({ product }: { product: Product }) {
     return (
         <View style={styles.card}>
             <Image
-                source={placeholderImage}
+                source={{uri: product.image}}
                 style={styles.image}
                 resizeMode="cover"
             />
