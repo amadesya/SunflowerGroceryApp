@@ -47,6 +47,7 @@ export function Button({ title, ...props }: PressableProps & { title: string }) 
 
 const styles = StyleSheet.create({
     pressable: {
+        alignSelf: 'stretch',
         borderRadius: Radius.r25,
         overflow: "hidden",
     },

@@ -6,7 +6,7 @@ import { StyleSheet, View } from 'react-native';
 
 export function ProfileScreen() {
     const hangleLogin = () => {
-        router.push('/login' as any); 
+        router.replace('/(auth)/login');
     };
 
     return (

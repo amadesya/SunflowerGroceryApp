@@ -25,10 +25,7 @@ export function RecipeCard({ recipe }: { recipe: Recipe }) {
                 <View style={styles.chips}>
                     <Chip text={String(recipe.calories)} />
                 </View>  
-            </View>
-
-            <View style={styles.footer}>
-                <Button title="Добавить в корзину"/>
+                <Button title="Добавить в корзину" />
             </View>
         </View>
     );
@@ -51,10 +48,8 @@ const styles = StyleSheet.create({
     title: {},
     chips: {},
     header: {
+        flex: 1,
         padding: 8,
-        gap: 6,
-    },
-    footer: {
-        padding: 8,
+        gap: 1,
     },
 });

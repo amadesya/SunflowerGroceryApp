@@ -11,7 +11,7 @@ export function RecipesScreen() {
             <View style={styles.wrapper}>
                 <ProductSearch />
                 <RecipeList />
-            </View>;
+            </View>
         </SafeAreaView>
     ) 
 }

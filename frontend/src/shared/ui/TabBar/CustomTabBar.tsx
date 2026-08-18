@@ -2,7 +2,7 @@ import { Colors, Radius } from '@/shared/theme';
 import { useRouter } from 'expo-router';
 import * as Icons from 'lucide-react-native';
 import React, { useState } from 'react';
-import { Dimensions, Pressable, StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, useWindowDimensions, View } from 'react-native';
 import Animated, { FadeInRight, FadeOutRight } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -33,7 +33,7 @@ type CustomTabBarProps = {
 
 export function CustomTabBar({ data, onChange }: CustomTabBarProps) {
     const { bottom } = useSafeAreaInsets();
-    const { width } = Dimensions.get('window');
+    const { width } = useWindowDimensions();
     const [selectedItem, setSelectedItem] = useState(0);
     const router = useRouter();
 
