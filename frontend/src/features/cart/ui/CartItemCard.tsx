@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
     },
     removeButton: {
         marginLeft: 'auto',
-        backgroundColor: Colors.red,
+        backgroundColor: Colors.primary,
     },
     controlText: {
         fontSize: FontSizes.f18,

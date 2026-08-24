@@ -4,20 +4,22 @@ import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from "react
 
 export function CategoryList(){
     return(
-        <FlatList
-        style={styles.list} 
-        horizontal 
-        data={categories}
-        contentContainerStyle={styles.categoryContainer}
-        keyExtractor={(item) => item.id}
-        renderItem={({item}) => (
-            <TouchableOpacity style={styles.card}>
-                <View style={styles.cardContent}>
-                    <Image source={{ uri: item.image }} style={styles.cardImage}/>
-                    <Text style={styles.cardText}>{item.title}</Text>        
-                </View>
-            </TouchableOpacity>)}
-        />
+        <View>
+            <FlatList
+            style={styles.list} 
+            horizontal 
+            data={categories}
+            contentContainerStyle={styles.categoryContainer}
+            keyExtractor={(item) => item.id}
+            renderItem={({item}) => (
+                <TouchableOpacity style={styles.card}>
+                    <View style={styles.cardContent}>
+                        <Image source={{ uri: item.image }} style={styles.cardImage}/>
+                        <Text style={styles.cardText}>{item.title}</Text>        
+                    </View>
+                </TouchableOpacity>)}
+            />
+        </View>
     )
 }
 

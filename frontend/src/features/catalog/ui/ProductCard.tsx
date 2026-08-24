@@ -56,6 +56,7 @@ const styles = StyleSheet.create({
         height: 160,
     },
     header: {
+        flex: 1, 
         padding: 8,
         gap: 6,
     },

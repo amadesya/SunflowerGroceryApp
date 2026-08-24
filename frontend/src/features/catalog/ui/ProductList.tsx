@@ -10,21 +10,23 @@ import { ProductCard } from './ProductCard';
 interface ProductListProps {
     title?: string;
     ListHeaderComponent?: React.ReactElement | null;
-    /** Дополнительный визуальный отступ над таб-баром (по умолчанию 16) */
     extraBottomPadding?: number;
 }
+
+const ESTIMATED_FLOATING_TAB_BAR_HEIGHT = 80;
 
 export function ProductList({
     title,
     ListHeaderComponent,
-    extraBottomPadding = 16,
+    extraBottomPadding = 24,
 }: ProductListProps) {
     const insets = useSafeAreaInsets();
-    
-    const tabBarHeight = useBottomTabBarHeight();
 
-    const dynamicPaddingBottom = useMemo(() => {
-        return (tabBarHeight > 0 ? tabBarHeight : insets.bottom) + extraBottomPadding;
+    const tabBarHeight = useBottomTabBarHeight();
+    
+    const paddingBottom = useMemo(() => {
+        const baseHeight = Math.max(tabBarHeight, ESTIMATED_FLOATING_TAB_BAR_HEIGHT);
+        return baseHeight + insets.bottom + extraBottomPadding;
     }, [tabBarHeight, insets.bottom, extraBottomPadding]);
 
     return (
@@ -47,7 +49,7 @@ export function ProductList({
                 columnWrapperStyle={styles.columnWrapper}
                 contentContainerStyle={[
                     styles.listContent,
-                    { paddingBottom: dynamicPaddingBottom },
+                    { paddingBottom },
                 ]}
                 showsVerticalScrollIndicator={false}
             />
