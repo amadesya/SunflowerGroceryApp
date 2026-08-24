@@ -10,13 +10,13 @@ export function Chip({ text }: { text: string }) {
 
 const styles = StyleSheet.create({
     container:{
-        paddingVertical: 5,
-        paddingHorizontal: 10,
+        // paddingVertical: 5,
+        // paddingHorizontal: 10,
         borderRadius: Radius.r16
     },
     text:{
         fontFamily: Fonts.bold,
-        fontSize: FontSizes.f18,
+        fontSize: FontSizes.f16,
         color: Colors.brown
     },
 });

@@ -1,67 +1,43 @@
-import { Product, ProductCard } from '@/entities/product';
-import { Colors, FontSizes } from '@/shared/theme';
-import type { AxiosResponse } from 'axios';
-import React, { useEffect, useMemo, useState } from 'react';
-import { ActivityIndicator, FlatList, StyleSheet, Text, View } from 'react-native';
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
+import React, { useMemo } from 'react';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { getProducts } from '../api/productsApi';
 
-type ListItem = Product | { id: string; empty: true };
+import { products } from '@/entities/product/model/types';
+import { Colors, FontSizes } from '@/shared/theme';
+import { ProductCard } from './ProductCard';
 
 interface ProductListProps {
     title?: string;
     ListHeaderComponent?: React.ReactElement | null;
+    extraBottomPadding?: number;
 }
 
-export function ProductList({ title, ListHeaderComponent }: ProductListProps) {
-    const { top } = useSafeAreaInsets();
-    const [products, setProducts] = useState<Product[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+const ESTIMATED_FLOATING_TAB_BAR_HEIGHT = 80;
 
-    useEffect(() => {
-        getProducts()
-            .then((response: AxiosResponse<Product[]>) => {
-                setProducts(response.data);
-            })
-            .catch((err: unknown) => {
-                console.error('Error fetching products:', err);
-                setError('Failed to load products.');
-            })
-            .finally(() => {
-                setIsLoading(false);
-            });
-    }, []);
+export function ProductList({
+    title,
+    ListHeaderComponent,
+    extraBottomPadding = 24,
+}: ProductListProps) {
+    const insets = useSafeAreaInsets();
 
-    const formattedData = useMemo<ListItem[]>(() => {
-        if (!products.length) return [];
-        if (products.length % 2 !== 0) {
-            return [...products, { id: 'EMPTY_PLACEHOLDER', empty: true }];
-        }
-        return products;
-    }, [products]);
-
-    if (isLoading) {
-        return (
-            <View style={[styles.wrapper, styles.center]}>
-                <ActivityIndicator size="large" />
-            </View>
-        );
-    }
-
-    if (error) {
-        return (
-            <View style={[styles.wrapper, styles.center]}>
-                <Text style={styles.errorText}>{error}</Text>
-            </View>
-        );
-    }
+    const tabBarHeight = useBottomTabBarHeight();
+    
+    const paddingBottom = useMemo(() => {
+        const baseHeight = Math.max(tabBarHeight, ESTIMATED_FLOATING_TAB_BAR_HEIGHT);
+        return baseHeight + insets.bottom + extraBottomPadding;
+    }, [tabBarHeight, insets.bottom, extraBottomPadding]);
 
     return (
         <View style={styles.wrapper}>
             <FlatList
-                data={formattedData}
-                ListHeaderComponent={ListHeaderComponent ?? <Text style={styles.header}>{title ?? 'Список продуктов'}</Text>}
+                data={products}
+                ListHeaderComponent={
+                    ListHeaderComponent ?? (
+                        <Text style={styles.header}>{title ?? 'Список продуктов'}</Text>
+                    )
+                }
                 renderItem={({ item }) => {
                     if ('empty' in item) {
                         return <View style={styles.emptyCard} />;
@@ -73,10 +49,9 @@ export function ProductList({ title, ListHeaderComponent }: ProductListProps) {
                 columnWrapperStyle={styles.columnWrapper}
                 contentContainerStyle={[
                     styles.listContent,
-                    {
-                        paddingBottom: 100,
-                    },
+                    { paddingBottom },
                 ]}
+                showsVerticalScrollIndicator={false}
             />
         </View>
     );
@@ -94,11 +69,6 @@ const styles = StyleSheet.create({
         color: Colors.brown,
         marginBottom: 16,
     },
-    center: {
-        justifyContent: 'center',
-        alignContent: 'center',
-        alignItems: 'center',
-    },
     columnWrapper: {
         gap: 4,
     },
@@ -109,9 +79,5 @@ const styles = StyleSheet.create({
     emptyCard: {
         flex: 1,
         backgroundColor: 'transparent',
-    },
-    errorText: {
-        color: 'red',
-        fontSize: 14,
     },
 });
