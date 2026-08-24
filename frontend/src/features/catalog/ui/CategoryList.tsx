@@ -1,6 +1,6 @@
 import { categories } from "@/entities/category/category";
 import { Colors, Radius } from '@/shared/theme';
-import { FlatList, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export function CategoryList(){
     return(
@@ -12,7 +12,10 @@ export function CategoryList(){
         keyExtractor={(item) => item.id}
         renderItem={({item}) => (
             <TouchableOpacity style={styles.card}>
-                <Text style={styles.cardText}>{item.title}</Text>
+                <View style={styles.cardContent}>
+                    <Image source={{ uri: item.image }} style={styles.cardImage}/>
+                    <Text style={styles.cardText}>{item.title}</Text>        
+                </View>
             </TouchableOpacity>)}
         />
     )
@@ -37,6 +40,17 @@ const styles = StyleSheet.create({
     },
     cardText: {
         fontSize: 14,
-        color: Colors.brown
+        color: Colors.brown,
+        fontWeight: 'bold'
+    },
+    cardImage: {
+        width: 50,
+        height: 50,
+        borderRadius: Radius.r25,
+        marginBottom: 8
+    },
+    cardContent:{
+        flexDirection: 'row',
+        alignItems: 'center'
     }
 })

@@ -6,28 +6,53 @@ import { Image, StyleSheet, View } from "react-native";
 import { Recipe } from "../../../entities/recipe/model/types";
 import { CalorieLabel } from "./CalorieLabel";
 
-export function RecipeCard({ recipe }: { recipe: Recipe }) {
+const placeholderImage = require('../../../../assets/images/products/images.webp');
+
+function resolveImageSource(image?: string | null): number | { uri: string } {
+    if (typeof image === 'string') {
+        const trimmed = image.trim();
+        if (trimmed.length > 0) {
+            return { uri: trimmed };
+        }
+    }
+    return placeholderImage;
+}
+
+export function RecipeCard({ recipe }: { recipe?: Recipe | null }) {
+    const safeRecipe = recipe ?? ({} as Partial<Recipe>);
+
+    const name = safeRecipe.name ?? 'Рецепт';
+    const calories = typeof safeRecipe.calories === 'number' && !Number.isNaN(safeRecipe.calories)
+        ? safeRecipe.calories
+        : 0;
+    const proteins = safeRecipe.proteins ?? 0;
+    const fats = safeRecipe.fats ?? 0;
+    const carbs = safeRecipe.carbs ?? 0;
+    const price = typeof safeRecipe.price === 'number' && !Number.isNaN(safeRecipe.price)
+        ? safeRecipe.price
+        : 0;
+
     return (
         <View style={styles.body}>
             <View style={styles.imageContainer}>
                 <Image
-                    source={{ uri: recipe.image}}
+                    source={resolveImageSource(safeRecipe.image)}
                     style={styles.image}
                     resizeMode="cover"
                 />
             </View>
             <View style={styles.infoContainer}>
                 <View>
-                    <Header text={recipe.name}/>
+                    <Header text={name}/>
                 </View>
                 <View>
-                    <CalorieLabel text={String(recipe.calories) + " ккал"} />
+                    <CalorieLabel text={String(calories) + " ккал"} />
                 </View>  
                 <View>
-                    <CalorieLabel text={`Б: ${recipe.proteins} г • Ж: ${recipe.fats} г • У: ${recipe.carbs} г`} />
+                    <CalorieLabel text={`Б: ${proteins} г • Ж: ${fats} г • У: ${carbs} г`} />
                 </View>  
                 <View style={styles.footer}>
-                    <Chip text={String(recipe.price) + " ₽/рецепт"} />
+                    <Chip text={String(price) + " ₽/рецепт"} />
                     <View style={styles.buttonView}>
                         <Button title="+" size="md"/>
                         <Button title="♡" size="md" />

@@ -2,9 +2,11 @@ import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import React, { useEffect } from 'react';
+import { Provider } from 'react-redux';
 import 'react-native-reanimated';
 
 import { Colors } from '@/shared/theme/tokens';
+import { store } from '@/store/store';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -29,18 +31,38 @@ export default function RootLayout() {
     return null;
   }
 
+  if (!store) {
+    console.warn('[RootLayout] Redux store is not defined — rendering without Provider.');
+    return (
+      <Stack
+        screenOptions={{
+          headerShown: false,
+          contentStyle: {
+            backgroundColor: Colors.beige,
+          },
+        }}
+      >
+        <Stack.Screen name="index" />
+        <Stack.Screen name="(auth)" />
+        <Stack.Screen name="(tabs)" />
+      </Stack>
+    );
+  }
+
   return (
-    <Stack
-      screenOptions={{
-        headerShown: false,
-        contentStyle: {
-          backgroundColor: Colors.beige,
-        },
-      }}
-    >
-      <Stack.Screen name="index" />
-      <Stack.Screen name="(auth)" />
-      <Stack.Screen name="(tabs)" />
-    </Stack>
+    <Provider store={store}>
+      <Stack
+        screenOptions={{
+          headerShown: false,
+          contentStyle: {
+            backgroundColor: Colors.beige,
+          },
+        }}
+      >
+        <Stack.Screen name="index" />
+        <Stack.Screen name="(auth)" />
+        <Stack.Screen name="(tabs)" />
+      </Stack>
+    </Provider>
   );
 }
